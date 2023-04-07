@@ -17,10 +17,10 @@ type Location struct {
 	Row, Column int
 }
 
-func NewLocation(i, j int) Location {
+func NewLocation(x, y int) Location {
 	return Location{
-		Row:    i,
-		Column: j,
+		Row:    y,
+		Column: x,
 	}
 }
 

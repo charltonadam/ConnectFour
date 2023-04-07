@@ -30,21 +30,29 @@ func (this Board) GetNumColumns() int {
 }
 
 func (this Board) GetPieceAtLocation(location Location) PlayerPiece {
-	return this[location.Row][location.Column]
+	return this[location.Column][location.Row]
 }
 
 func NewGameBoard() Board {
-	board := make([][]PlayerPiece, NumRows)
+	board := make([][]PlayerPiece, NumColumns)
 	for i := range board {
-		board[i] = make([]PlayerPiece, NumColumns)
+		board[i] = make([]PlayerPiece, NumRows)
 	}
 	return board
 }
 
+func (this Board) Copy() Board {
+	copyBoard := NewGameBoard()
+	for i, col := range this {
+		copy(copyBoard[i], col)
+	}
+	return copyBoard
+}
+
 func (this Board) AddPiece(player PlayerPiece, column int) (Board, bool) {
 	for i := 0; i < NumRows; i++ {
-		if this[i][column] == NoPlayer {
-			this[i][column] = player
+		if this[column][i] == NoPlayer {
+			this[column][i] = player
 			return this, true
 		}
 	}
@@ -52,9 +60,9 @@ func (this Board) AddPiece(player PlayerPiece, column int) (Board, bool) {
 }
 
 func (this Board) IsWinningState() PlayerPiece {
-	for i := 0; i < NumRows; i++ {
-		for j := 0; j < NumColumns; j++ {
-			player := IsPositionWinningMove(this, NewLocation(i, j))
+	for y := 0; y < NumRows; y++ {
+		for x := 0; x < NumColumns; x++ {
+			player := IsPositionWinningMove(this, NewLocation(x, y))
 			if player != NoPlayer {
 				return player
 			}
@@ -64,7 +72,7 @@ func (this Board) IsWinningState() PlayerPiece {
 }
 
 func (this Board) CanAddPieceAtColumn(column int) bool {
-	return this.GetPieceAtLocation(NewLocation(NumRows-1, column)) == NoPlayer
+	return this.GetPieceAtLocation(NewLocation(column, NumRows-1)) == NoPlayer
 }
 
 func IsBoardWinningState(board Board) PlayerPiece {
@@ -111,10 +119,10 @@ func isWinningInDirection(board Board, loc Location, dir Direction, player Playe
 
 func (this Board) ToString() string {
 	var sb strings.Builder
-	for i := NumRows - 1; i >= 0; i-- {
-		for j := 0; j < NumColumns; j++ {
+	for y := NumRows - 1; y >= 0; y-- {
+		for x := 0; x < NumColumns; x++ {
 			sb.WriteString("|")
-			switch this.GetPieceAtLocation(NewLocation(i, j)) {
+			switch this.GetPieceAtLocation(NewLocation(x, y)) {
 			case NoPlayer:
 				sb.WriteString(" ")
 			case Player1:
