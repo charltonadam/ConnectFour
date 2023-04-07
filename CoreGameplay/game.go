@@ -13,7 +13,21 @@ const (
 	NumColumns int = 7
 )
 
+func OtherPlayer(player PlayerPiece) PlayerPiece {
+	if player == Player1 {
+		return Player2
+	} else if player == Player2 {
+		return Player1
+	} else {
+		return NoPlayer
+	}
+}
+
 type Board [][]PlayerPiece
+
+func (this Board) GetNumColumns() int {
+	return NumColumns
+}
 
 func (this Board) GetPieceAtLocation(location Location) PlayerPiece {
 	return this[location.Row][location.Column]
@@ -27,14 +41,14 @@ func NewGameBoard() Board {
 	return board
 }
 
-func AddPiece(board Board, player PlayerPiece, column int) (Board, bool) {
+func (this Board) AddPiece(player PlayerPiece, column int) (Board, bool) {
 	for i := 0; i < NumRows; i++ {
-		if board[i][column] == NoPlayer {
-			board[i][column] = player
-			return board, true
+		if this[i][column] == NoPlayer {
+			this[i][column] = player
+			return this, true
 		}
 	}
-	return board, false
+	return this, false
 }
 
 func (this Board) IsWinningState() PlayerPiece {

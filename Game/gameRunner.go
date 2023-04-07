@@ -60,10 +60,10 @@ func listPlayers(players []CoreGameplay.Player) {
 func takeTurn(state *gameState) CoreGameplay.PlayerPiece {
 	if state.turn%2 == 0 {
 		//player1
-		state.board, _ = CoreGameplay.AddPiece(state.board, CoreGameplay.Player1, playerMove(state.player1, state.board))
+		state.board, _ = state.board.AddPiece(CoreGameplay.Player1, playerMove(state.player1, state.board))
 	} else {
 		//player2
-		state.board, _ = CoreGameplay.AddPiece(state.board, CoreGameplay.Player2, playerMove(state.player2, state.board))
+		state.board, _ = state.board.AddPiece(CoreGameplay.Player2, playerMove(state.player2, state.board))
 	}
 	return state.board.IsWinningState()
 }

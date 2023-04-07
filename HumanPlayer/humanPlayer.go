@@ -6,6 +6,7 @@ import (
 	"github.com/m/v2/CoreGameplay"
 	"os"
 	"strconv"
+	"strings"
 )
 
 type HumanPlayer struct {
@@ -28,13 +29,13 @@ func (this *HumanPlayer) GetName() string {
 	return this.name
 }
 
-func (this *HumanPlayer) MakeMove(board CoreGameplay.Board, c chan int) {
+func (this *HumanPlayer) MakeMove(_ CoreGameplay.Board, c chan int) {
 	fmt.Print("Enter column 0-6: ")
 	reader := bufio.NewReader(os.Stdin)
 
 	for true {
 		text, _ := reader.ReadString('\n')
-		i, err := strconv.Atoi(text)
+		i, err := strconv.Atoi(strings.Trim(text, "\n"))
 		if err == nil && i >= 0 && i <= CoreGameplay.NumColumns {
 			c <- i
 			break
