@@ -15,7 +15,7 @@ func (this *RandoBot) Init(player CoreGameplay.PlayerPiece) {
 }
 
 func (this *RandoBot) GetName() string {
-	return "RandoBot"
+	return "RandoBot!"
 }
 
 func (this *RandoBot) MakeMove(board CoreGameplay.Board, c chan int) {
