@@ -49,14 +49,14 @@ func (this Board) Copy() Board {
 	return copyBoard
 }
 
-func (this Board) AddPiece(player PlayerPiece, column int) (Board, bool) {
+func (this Board) AddPiece(player PlayerPiece, column int) bool {
 	for i := 0; i < NumRows; i++ {
 		if this[column][i] == NoPlayer {
 			this[column][i] = player
-			return this, true
+			return true
 		}
 	}
-	return this, false
+	return false
 }
 
 func (this Board) IsWinningState() PlayerPiece {

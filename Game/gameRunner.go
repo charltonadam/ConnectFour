@@ -22,6 +22,8 @@ func NewGame(players []CoreGameplay.Player) {
 		player2: selectPlayer(players),
 		turn:    0,
 	}
+	game.player1.Init(CoreGameplay.Player1)
+	game.player2.Init(CoreGameplay.Player2)
 
 	for game.turn < 42 {
 		if takeTurn(game) != CoreGameplay.NoPlayer {
@@ -60,10 +62,10 @@ func listPlayers(players []CoreGameplay.Player) {
 func takeTurn(state *gameState) CoreGameplay.PlayerPiece {
 	if state.turn%2 == 0 {
 		//player1
-		state.board, _ = state.board.AddPiece(CoreGameplay.Player1, playerMove(state.player1, state.board))
+		state.board.AddPiece(CoreGameplay.Player1, playerMove(state.player1, state.board))
 	} else {
 		//player2
-		state.board, _ = state.board.AddPiece(CoreGameplay.Player2, playerMove(state.player2, state.board))
+		state.board.AddPiece(CoreGameplay.Player2, playerMove(state.player2, state.board))
 	}
 	return state.board.IsWinningState()
 }

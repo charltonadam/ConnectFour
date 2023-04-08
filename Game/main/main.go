@@ -11,6 +11,7 @@ func main() {
 	players := []CoreGameplay.Player{
 		&HumanPlayer.HumanPlayer{},
 		&RandoBot.RandoBot{},
+		&RandoBot.RandoPlus{},
 	}
 
 	Game.NewGame(players)
