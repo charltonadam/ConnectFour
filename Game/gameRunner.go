@@ -2,6 +2,7 @@ package Game
 
 import (
 	"bufio"
+	"context"
 	"fmt"
 	"github.com/m/v2/CoreGameplay"
 	"os"
@@ -71,13 +72,24 @@ func takeTurn(state *gameState) CoreGameplay.PlayerPiece {
 }
 
 func playerMove(player CoreGameplay.Player, board CoreGameplay.Board) int {
+	ctx, _ := context.WithTimeout(context.Background(), 1*time.Second)
 	playerMoveChannel := make(chan int, 1)
-
+	playerMoves := CoreGameplay.Stack[int]{}
 	go player.MakeMove(board, playerMoveChannel)
-	time.Sleep(1 * time.Second)
-	close(playerMoveChannel)
-	if len(playerMoveChannel) > 0 {
-		return <-playerMoveChannel
+	var val int
+	for {
+		select {
+		case <-ctx.Done():
+			goto LABEL
+		case val = <-playerMoveChannel:
+			fmt.Println("player sent move")
+			playerMoves.Add(val)
+		}
+	}
+LABEL:
+
+	if val, err := playerMoves.Pop(); err == nil {
+		return val
 	}
 
 	//else, go down the list until you find a valid move
