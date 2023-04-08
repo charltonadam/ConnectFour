@@ -23,6 +23,9 @@ func NewGame(players []CoreGameplay.Player) {
 		turn:    0,
 	}
 
+	game.player1.Init(CoreGameplay.Player1)
+	game.player2.Init(CoreGameplay.Player2)
+
 	for game.turn < 42 {
 		if takeTurn(game) != CoreGameplay.NoPlayer {
 			fmt.Println("WINNER")
