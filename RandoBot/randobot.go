@@ -27,6 +27,7 @@ func (this *RandoBot) MakeMove(board CoreGameplay.Board, c chan int) {
 		i := r.Intn(CoreGameplay.NumColumns)
 		if board.CanAddPieceAtColumn(i) {
 			c <- i
+			time.Sleep(time.Second * 1)
 			return
 		}
 	}

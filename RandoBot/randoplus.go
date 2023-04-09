@@ -19,6 +19,12 @@ func (this *RandoPlus) GetName() string {
 }
 
 func (this *RandoPlus) MakeMove(board CoreGameplay.Board, c chan int) {
+	this._MakeMove(board, c)
+	time.Sleep(time.Second * 1)
+	return
+}
+
+func (this *RandoPlus) _MakeMove(board CoreGameplay.Board, c chan int) {
 
 	columnPick := this.CheckForWinBoardStates(board)
 	if columnPick != -1 {
