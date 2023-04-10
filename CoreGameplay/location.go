@@ -3,14 +3,14 @@ package CoreGameplay
 type Direction byte
 
 const (
-	up Direction = iota
-	down
-	right
-	left
-	upRight
-	upLeft
-	downRight
-	downLeft
+	Up Direction = iota
+	Down
+	Right
+	Left
+	UpRight
+	UpLeft
+	DownRight
+	DownLeft
 )
 
 type Location struct {
@@ -33,16 +33,16 @@ func (this Location) IsValid() bool {
 
 func MoveLocationInDirection(loc Location, dir Direction) Location {
 
-	if dir == up || dir == upRight || dir == upLeft {
+	if dir == Up || dir == UpRight || dir == UpLeft {
 		loc.Row++
 	}
-	if dir == down || dir == downRight || dir == downLeft {
+	if dir == Down || dir == DownRight || dir == DownLeft {
 		loc.Row--
 	}
-	if dir == right || dir == upRight || dir == downRight {
+	if dir == Right || dir == UpRight || dir == DownRight {
 		loc.Column++
 	}
-	if dir == left || dir == upLeft || dir == downLeft {
+	if dir == Left || dir == UpLeft || dir == DownLeft {
 		loc.Column--
 	}
 	return loc

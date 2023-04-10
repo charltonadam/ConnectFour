@@ -72,22 +72,23 @@ func takeTurn(state *gameState) CoreGameplay.PlayerPiece {
 }
 
 func playerMove(player CoreGameplay.Player, board CoreGameplay.Board) int {
-	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
+	ctx, cancel := context.WithTimeout(context.Background(), 100*time.Second)
 	playerMoveChannel := make(chan int, 1)
 	go func() {
 		player.MakeMove(board, playerMoveChannel)
 		cancel()
 	}()
 	move := -1
-	for {
-		select {
-		case <-ctx.Done():
-			goto LABEL
-		case move = <-playerMoveChannel:
-			continue
+	func() {
+		for {
+			select {
+			case <-ctx.Done():
+				return
+			case move = <-playerMoveChannel:
+				continue
+			}
 		}
-	}
-LABEL:
+	}()
 
 	if move != -1 && board.CanAddPieceAtColumn(move) {
 		return move

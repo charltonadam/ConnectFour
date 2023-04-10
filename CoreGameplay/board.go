@@ -92,7 +92,7 @@ func IsPositionWinningMove(board Board, loc Location) PlayerPiece {
 	if player == NoPlayer {
 		return NoPlayer
 	}
-	for i := up; i <= downLeft; i++ {
+	for i := Up; i <= DownLeft; i++ {
 		if isWinningInDirection(board, loc, i, player, 0) {
 			return player
 		}
