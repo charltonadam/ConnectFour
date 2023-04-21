@@ -26,15 +26,26 @@ func NewGame(players []CoreGameplay.Player) {
 	game.player1.Init(CoreGameplay.Player1)
 	game.player2.Init(CoreGameplay.Player2)
 
-	for game.turn < 42 {
-		if takeTurn(game) != CoreGameplay.NoPlayer {
-			fmt.Println("WINNER")
-			fmt.Print(game.board.ToString())
+	for game.turn < CoreGameplay.NumRows*CoreGameplay.NumColumns {
+		player := takeTurn(game)
+		if player == CoreGameplay.NoPlayer {
+
+			game.turn++
+			fmt.Print(game.board.ToString() + "\n\n")
+		}
+		if player == CoreGameplay.Player1 {
+			fmt.Printf("Player 1: %s, WINS!!!\n", game.player1.GetName())
+			fmt.Print(game.board.ToString() + "\n\n")
 			return
 		}
-		game.turn++
-		fmt.Print(game.board.ToString() + "\n\n")
+		if player == CoreGameplay.Player2 {
+			fmt.Printf("Player 2: %s, WINS!!!\n", game.player2.GetName())
+			fmt.Print(game.board.ToString() + "\n\n")
+			return
+		}
+
 	}
+	fmt.Println("TIE GAME!!!")
 
 }
 
